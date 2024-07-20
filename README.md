@@ -7,4 +7,4 @@
 ![alt text](pics/image.png)
 
 После достижения одним из игроков счета в 21 очко, игра выводит поздравление победителя и завершается
-![alt text](image.png)
+![alt text](pics/image2.png)
