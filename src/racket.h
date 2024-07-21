@@ -24,7 +24,7 @@ struct Racket {
 // движение ракетки вниз, принимает 
 // указатель на ракетку и двигает ее, если 
 // ракетка не находится на границе поля
-inline void MoveDown (struct Racket *r) {
+void MoveDown (struct Racket *r) {
     if (r->p1.y < FieldHeight - 3) {
         ++r->p1.y;
         ++r->p2.y;
@@ -34,7 +34,7 @@ inline void MoveDown (struct Racket *r) {
 // движение ракетки вверх, принимает 
 // указатель на ракетку и двигает ее, если 
 // ракетка не находится на границе поля
-inline void MoveUp (struct Racket *r) {
+void MoveUp (struct Racket *r) {
     if (r->p2.y > 5) {
         --r->p1.y;
         --r->p2.y;
@@ -42,18 +42,20 @@ inline void MoveUp (struct Racket *r) {
 }
 
 // возвращает 1, если мяч попал на ракетку, иначе - 0
-inline int BallInRacket (struct Racket r, struct Ball b) {
+int BallInRacket (struct Racket r, struct Ball b) {
     return b.y == r.p1.x && b.x >= r.p1.y && b.x <= r.p2.y;
 }
 
 // меняет положения мяча, если он отскакивает от ракетки
-inline void BounceFromRacket (struct Ball *b, struct Racket r) {
-    // printf("%d %d %d %d\n", b->x, b->y, r.p2.x, r.p1.x);
+void BounceFromRacket (struct Ball *b, struct Racket r) {
+
     // проверка, что мяч попал на ракетку
     if (!BallInRacket(r, *b)) {
         return;
     }
 
+    // изменение коэффициента движения мяча
+    // после отскока
     b->ky = -b->ky;
 
 }

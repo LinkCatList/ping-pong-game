@@ -8,7 +8,10 @@
 
 int main () {
 
+    // изначально мяч на середине поля
     struct Ball b = {FieldHeight / 2 - 2, FieldWidth / 2, 1, 1};
+
+    // исходные позиции ракеток
     struct Racket r1 = {{5, 5}, {5, 7}};
     struct Racket r2 = {{76, 10}, {76, 12}};
 
@@ -35,34 +38,37 @@ int main () {
             break;
         }
 
-        fieldDraw(b, r1, r2);
+        // отрисовка поля и обновление координат мяча
+        // в случае отскока от ракеток или стен
+        fieldDraw(b, r1, r2, cntFirst, cntSecond);
         BounceFromWall(&b);
         UpdBallCoords(&b);
         BounceFromRacket(&b, r1);
         BounceFromRacket(&b, r2);
         
+        // мяч улетел за ракетку первого игрока
         if (ballIsBehindRacket(b, r1)) {
             ++cntSecond;
 
-            if ((cntFirst + cntSecond) % 2 == 0) {
-                b.kx = -1;
-            }
+            b.kx = -b.kx;
+            b.ky = -b.ky;
 
             b.x = FieldHeight / 2;
             b.y = FieldWidth / 2;
         }
         
+        // мяч улетел за ракетку второго игрока
         if (ballIsBehindRacket(b, r2)) {
             ++cntFirst;
 
-            if ((cntFirst + cntSecond) % 2 == 0) {
-                b.kx = -1;
-            }
+            b.kx = -b.kx;
+            b.ky = -b.ky;
 
             b.x = FieldHeight / 2;
             b.y = FieldWidth / 2;
         }
 
+        // победа второго игрока
         if (cntSecond == 21) {
             printf(" _______  _______  _______  _______  _        ______             _________ _        _ \n"
                 "(  ____ \(  ____ \(  ____ \(  ___  )( (    /|(  __  \\   |\\     /|\\__   __/( (    /|( )\n"
@@ -75,6 +81,7 @@ int main () {
             return 0;
         }
         
+        // победа первого игрока
         if (cntFirst == 21) {
             printf(" _______ _________ _______  _______ _________           _________ _  _\n"
                 "(  ____ \\\\__   __/(  ____ )(  ____ \\__   __/  |\\     /|\\__   __/( (    /|( )\n"
